@@ -78,7 +78,7 @@ jobs:
       - name: Update Feeds
         run: |
           cd ./owrt/
-
+          echo "src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git;main" >> "feeds.conf.default"
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
@@ -102,7 +102,7 @@ jobs:
 
       - name: Package Firmware
         run: |
-          cd ./owrt/ && mkdir ./upload/
+          cd ./owrt/ && mkdir -p ./upload/
           cp -f ./.config ./upload/config-"$OWRT_HASH".txt
           echo "OWRT_KVER=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^kernel - \K[\d\.]+' {} \;)" >> $GITHUB_ENV
           echo "OWRT_LIST=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^luci-(app|theme)[^ ]*' {} \; | tr '\n' ' ')" >> $GITHUB_ENV
@@ -114,7 +114,7 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{env.OWRT_HASH}}
-          files: ./owrt/upload/*.*
+          files: ./owrt/upload/*
           body: |
             提交：${{env.OWRT_HASH}}
             内核版本：${{env.OWRT_KVER}}
