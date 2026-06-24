@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Initialization Environment
         env:
@@ -41,7 +41,7 @@ jobs:
 
       - name: Check Caches
         id: check-cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           key: owrt-${{ env.OWRT_HASH }}
           restore-keys: owrt
